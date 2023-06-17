@@ -18,6 +18,9 @@ const db = new Low(adapter, defaultData);
 
 async function updateStations() {
   try {
+    if (new Date().getHours() < 8) {
+      return null;
+    }
     if (db.data.stations.length <= 4) {
       const allNewstations = await getStations(db.data.stations.slice(1));
       db.data.stations = allNewstations;

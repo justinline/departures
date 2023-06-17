@@ -49,6 +49,7 @@ function App() {
   // If 4 stations, index 0 would be 0 minutes, index 1 would be 5 minutes
   // If 3 stations, index 0 would be 5 minutes, index 1 would be 10 minutes
   const getTrainTime = (index: number) => {
+    if (stationsLength === 0) return "";
     if (index === 0) return "due";
     const waitingTime = (maxStations - stationsLength) * 5;
 
@@ -97,6 +98,25 @@ function App() {
                   </span>
                 </li>
               ))}
+              {motd.length === 0 && (
+                <>
+                  <li
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "2rem 2fr 1fr",
+                      gap: "1rem",
+                    }}
+                  >
+                    <span>1</span>
+                    <span style={{ flex: "1" }}>
+                      Service finished for the day.
+                    </span>
+                  </li>
+                  <li style={{ height: "1em" }} />
+                  <li style={{ height: "1em" }} />
+                  <li style={{ height: "1em" }} />
+                </>
+              )}
               <li>
                 <Marquee delay={1}>
                   <p style={{ marginRight: "0.5em" }}>
