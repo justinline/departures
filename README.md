@@ -2,6 +2,8 @@
 
 Small GPT-based project to create made up London tube stations using GPT3.
 
+[Deployed version](https://departures.onrender.com)
+
 ## To run the project
 
 Prerequisites:

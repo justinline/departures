@@ -98,7 +98,10 @@ function App() {
                   <p style={{ marginRight: "0.5em" }}>
                     Departures every 5 minutes. Check back for further updates.
                     Planned engineering this weekend. Created by{" "}
-                    <a href="https://github.com/justinline">justinline</a>.
+                    <a href="https://github.com/justinline/departures">
+                      justinline
+                    </a>
+                    .
                   </p>
                 </Marquee>
               </li>
