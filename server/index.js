@@ -5,7 +5,7 @@ import { JSONFile } from "lowdb/node";
 import { Low } from "lowdb";
 import { config } from "dotenv";
 import path from "path";
-import getStations from "./getStations.js";
+import getTrainList from "./getTrainList.js";
 
 config();
 
@@ -19,10 +19,10 @@ const db = new Low(adapter, defaultData);
 async function updateStations() {
   try {
     if (new Date().getHours() < 8) {
-      return null;
+      return [];
     }
     if (db.data.stations.length <= 4) {
-      const allNewstations = await getStations(db.data.stations.slice(1));
+      const allNewstations = await getTrainList(db.data.stations.slice(1));
       db.data.stations = allNewstations;
     } else {
       // Drop the first station
@@ -33,7 +33,7 @@ async function updateStations() {
 
     console.log(db.data.stations);
   } catch (error) {
-    console.error(`Error getting message: ${error}`);
+    console.error(`Error updating stations: ${error}`);
 
     return;
   }
@@ -42,7 +42,6 @@ async function updateStations() {
 const fiveMinutes = 1000 * 60 * 5;
 
 setInterval(updateStations, fiveMinutes);
-
 updateStations();
 
 const app = express();

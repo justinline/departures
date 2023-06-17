@@ -63,33 +63,15 @@ function App() {
   };
 
   return (
-    <div style={{ position: "relative" }}>
-      <div
-        style={{
-          background: "black",
-          padding: "0.5em 2em",
-          borderRadius: "4px",
-        }}
-        className="time-font board"
-      >
+    <div>
+      <div className="time-font board">
         {motd && (
           <>
-            <ul
-              style={{
-                listStyle: "none",
-                paddingLeft: "0",
-                textAlign: "left",
-              }}
-            >
+            <ul className="train-list">
               {motd.map((str, index) => (
                 <li
                   key={str}
-                  className={index === 0 ? "blink" : ""}
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "2rem 2fr 1fr",
-                    gap: "1rem",
-                  }}
+                  className={index === 0 ? "blink train-item " : "train-item "}
                 >
                   <span>{index + 1}</span>
                   <span style={{ flex: "1" }}>{str}</span>
@@ -100,13 +82,7 @@ function App() {
               ))}
               {motd.length === 0 && (
                 <>
-                  <li
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "2rem 2fr 1fr",
-                      gap: "1rem",
-                    }}
-                  >
+                  <li className="train-item ">
                     <span>1</span>
                     <span style={{ flex: "1" }}>
                       Service finished for the day.

@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 import { Configuration, OpenAIApi } from "openai";
-import getStationName from "./getStationName.js";
+import buildGptPrompt from "./buildGptPrompt.js";
 
 config();
 
@@ -9,11 +9,8 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-const getMessageOfTheDay = async (previousStations = []) => {
-  // return previousStations;
-
-  const prompt = getStationName(previousStations);
-  console.log("Latest prompt is: " + prompt);
+const getTrainList = async (previousStations = []) => {
+  const prompt = buildGptPrompt(previousStations);
 
   try {
     const completion = await openai.createCompletion({
@@ -26,7 +23,6 @@ const getMessageOfTheDay = async (previousStations = []) => {
     const fourNewStations = completion.data.choices[0].text
       .split(",")
       .filter((s) => s !== "");
-    console.log("New stations: " + JSON.stringify(fourNewStations.join(", ")));
 
     return [
       ...previousStations,
@@ -45,4 +41,4 @@ const getMessageOfTheDay = async (previousStations = []) => {
   }
 };
 
-export default getMessageOfTheDay;
+export default getTrainList;
