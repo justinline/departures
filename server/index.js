@@ -20,6 +20,8 @@ async function updateStations() {
   const date = new Date();
 
   const hour = date.getUTCHours();
+
+  console.log("hour", hour);
   try {
     if (hour < 7 || hour > 23) {
       return [];
