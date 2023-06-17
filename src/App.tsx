@@ -109,6 +109,9 @@ function App() {
       <div style={{ position: "relative" }}>
         <WakeLock />
       </div>
+      <div className="time-font orientation-warning">
+        Best viewed in landscape
+      </div>
     </div>
   );
 }

@@ -2,9 +2,7 @@ import useWakeLock from "./useWakeLock";
 import "./WakeLock.css";
 
 const WakeLock = () => {
-  const { isSupported, released, request, release } = useWakeLock({});
-
-  console.log(`Screen Wake Lock API supported: ${isSupported}`);
+  const { released, request, release } = useWakeLock({});
 
   return (
     <div className="WakeLock">
