@@ -11,6 +11,7 @@ config();
 
 const defaultData = {
   stations: ["Lower Donkington", "Muddy shore", "Isle of Frogs", "East Chair"],
+  lastUpdated: new Date().toISOString(),
 };
 const adapter = new JSONFile(".data/db.json");
 const db = new Low(adapter, defaultData);
@@ -22,6 +23,7 @@ async function updateStations() {
     const stations = await getStations(lastThreeStations);
 
     db.data.stations = stations;
+    db.data.lastUpdated = new Date().toISOString();
 
     console.log(stations);
   } catch (error) {
@@ -51,7 +53,7 @@ app.get("/api/motd", (req, res) => {
   console.log("GET /api/motd");
   const motd = db.data.stations;
 
-  return res.send({ motd });
+  return res.send({ motd, lastUpdated: db.data.lastUpdated });
 });
 
 app.get("/", (request, response) => {

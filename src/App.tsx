@@ -12,24 +12,29 @@ const getLondonTime = () => {
 };
 
 function App() {
-  const [renderDate] = useState<Date>(new Date());
+  const [serverLastUpdate, setServerLastUpdate] = useState<Date>(new Date());
   const [motd, setMotd] = useState<string[]>([]);
   const [timeInLondon, setTimeInLondon] = useState<Date>(getLondonTime());
 
-  useEffect(() => {
+  const getData = () =>
     fetch("/api/motd")
       .then((res) => res.json())
-      .then((data) => setMotd(data.motd));
+      .then((data) => {
+        setMotd(data.motd);
+        setServerLastUpdate(new Date(data.lastUpdated));
+      });
 
-    const fiveMinutes = 1000 * 60 * 5;
-
-    setTimeout(() => {
-      window.location.reload();
-    }, fiveMinutes);
+  useEffect(() => {
+    getData();
   }, []);
 
   useInterval(() => {
     setTimeInLondon(getLondonTime());
+    const fiveMinutesAgo = new Date().getTime() - 1000 * 60 * 5;
+
+    if (serverLastUpdate.getTime() < fiveMinutesAgo) {
+      getData();
+    }
   }, 1000);
 
   const londonTime = timeInLondon.toLocaleTimeString("en-GB", {
@@ -48,7 +53,7 @@ function App() {
     const waitingTime = (maxStations - stationsLength) * 5;
 
     const minutesSinceRender = Math.floor(
-      (timeInLondon.getTime() - renderDate.getTime()) / 1000 / 60
+      (timeInLondon.getTime() - serverLastUpdate.getTime()) / 1000 / 60
     );
 
     const minutes = index * 5 - minutesSinceRender + waitingTime;
