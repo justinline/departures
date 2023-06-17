@@ -23,7 +23,7 @@ async function updateStations() {
 
   console.log("hour", hour);
   try {
-    if (hour < 7 || hour > 23) {
+    if (hour < 7 || hour >= 23) {
       return [];
     }
     if (db.data.stations.length <= 4) {
