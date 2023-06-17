@@ -23,12 +23,16 @@ const getMessageOfTheDay = async (previousStations = []) => {
       max_tokens: 12,
     });
 
-    console.log("OpenAI Result: " + JSON.stringify(completion.data));
-    console.log("===========================");
-    const newStation = completion.data.choices[0].text.replace(/\.$/, "");
-    console.log("newStation is: " + newStation);
+    const fourNewStations = completion.data.choices[0].text
+      .split(",")
+      .filter((s) => s !== "");
+    console.log("New stations: " + JSON.stringify(fourNewStations.join(", ")));
 
-    return [...previousStations, newStation];
+    return [
+      ...previousStations,
+      // regex Replace trailing . with ''
+      ...fourNewStations.map((s) => s.replace(/\.$/, "").trim()),
+    ];
   } catch (error) {
     if (error.response) {
       console.log(error.response.status);

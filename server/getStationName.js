@@ -11,9 +11,13 @@ const getStationName = (previous) => `
 
   The names must sound like realistic tube stations, but must not already exist.
   Try to avoid similar sounding names to previous entries. Try to keep a balance between one and two word station names e.g "Lower Donkington" and "Zoomsbury".
-
-  What is your suggestion for a new station name? Reply with just your suggestion, no other text. 
   Do not include the word "Station"
+
+    What is your suggestion for 4 new station names? 
+    Reply with just your suggestions, in the format:
+    
+    <name>, <name>, <name>, <name> 
+
   `;
 
 export default getStationName;

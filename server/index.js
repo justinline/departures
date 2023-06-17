@@ -10,7 +10,7 @@ import getStations from "./getStations.js";
 config();
 
 const defaultData = {
-  stations: ["Lower Donkington", "Muddy shore", "Isle of Frogs", "East Chair"],
+  stations: ["Lower Donkington", "Muddy shore", "Clapton Forest", "East Chair"],
   lastUpdated: new Date().toISOString(),
 };
 const adapter = new JSONFile(".data/db.json");
@@ -18,14 +18,17 @@ const db = new Low(adapter, defaultData);
 
 async function updateStations() {
   try {
-    const lastThreeStations = db.data.stations.slice(-3);
+    if (db.data.stations.length <= 4) {
+      const allNewstations = await getStations(db.data.stations);
+      db.data.stations = allNewstations;
+    } else {
+      // Drop the first station
+      db.data.stations = db.data.stations.slice(1);
+    }
 
-    const stations = await getStations(lastThreeStations);
-
-    db.data.stations = stations;
     db.data.lastUpdated = new Date().toISOString();
 
-    console.log(stations);
+    console.log(db.data.stations);
   } catch (error) {
     console.error(`Error getting message: ${error}`);
 
@@ -37,9 +40,7 @@ const fiveMinutes = 1000 * 60 * 5;
 
 setInterval(updateStations, fiveMinutes);
 
-updateStations().then(() => {
-  updateStations();
-});
+updateStations();
 
 const app = express();
 app.use(bodyparser.json());
@@ -51,9 +52,13 @@ app.get("/", (req, res) => {
 
 app.get("/api/motd", (req, res) => {
   console.log("GET /api/motd");
-  const motd = db.data.stations;
 
-  return res.send({ motd, lastUpdated: db.data.lastUpdated });
+  const firstFourStations = db.data.stations.slice(0, 4);
+
+  return res.send({
+    motd: firstFourStations,
+    lastUpdated: db.data.lastUpdated,
+  });
 });
 
 app.get("/", (request, response) => {
