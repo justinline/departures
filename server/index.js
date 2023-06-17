@@ -19,7 +19,7 @@ const db = new Low(adapter, defaultData);
 async function updateStations() {
   try {
     if (db.data.stations.length <= 4) {
-      const allNewstations = await getStations(db.data.stations);
+      const allNewstations = await getStations(db.data.stations.slice(1));
       db.data.stations = allNewstations;
     } else {
       // Drop the first station

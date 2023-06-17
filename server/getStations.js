@@ -20,7 +20,7 @@ const getMessageOfTheDay = async (previousStations = []) => {
       model: "text-davinci-003",
       prompt: prompt,
       temperature: 0.8,
-      max_tokens: 12,
+      max_tokens: 20,
     });
 
     const fourNewStations = completion.data.choices[0].text

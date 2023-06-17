@@ -12,19 +12,16 @@ button {
 }
 
 .WakeLock {
+    align-self: flex-start;
+    justify-self: flex-end;
     font-size: 0.75rem;
     display: flex;
     align-items: center;
     gap: 0.5em;
-    position: absolute;
-    right: 1em;
-    bottom: -0.5em;
 }
 
 @media (min-width: 768px) {
     .WakeLock {
       font-size: 1rem;
-      right: 2em;
-      bottom: 2em;
     }
   }

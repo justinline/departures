@@ -107,13 +107,24 @@ function App() {
                 </Marquee>
               </li>
             </ul>
-            <div style={{ fontWeight: 400 }}>{londonTime}</div>
+            <div
+              style={{
+                fontWeight: 400,
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              <div />
+              <div>{londonTime}</div>
+              <WakeLock />
+            </div>
           </>
         )}
       </div>
-      <div style={{ position: "relative" }}>
-        <WakeLock />
-      </div>
+
       <div className="time-font orientation-warning">
         Best viewed in landscape
       </div>

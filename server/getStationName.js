@@ -18,6 +18,7 @@ const getStationName = (previous) => `
     
     <name>, <name>, <name>, <name> 
 
+    The four stations:
   `;
 
 export default getStationName;
