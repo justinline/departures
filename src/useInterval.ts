@@ -1,6 +1,6 @@
 import React from "react";
 
-const useInterval = (callback: () => void) => {
+const useInterval = (callback: () => void, delay = 1000) => {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const savedCallback = React.useRef(() => {});
 
@@ -12,7 +12,7 @@ const useInterval = (callback: () => void) => {
     function tick() {
       savedCallback.current();
     }
-    const id = setInterval(tick, 1000);
+    const id = setInterval(tick, delay);
     return () => clearInterval(id);
   }, []);
 };

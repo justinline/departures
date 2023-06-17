@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import "unfonts.css";
 import useInterval from "./useInterval";
+import Marquee from "react-fast-marquee";
 
 const getLondonTime = () => {
   const date = new Date();
@@ -10,6 +11,7 @@ const getLondonTime = () => {
 };
 
 function App() {
+  const [renderDate] = useState<Date>(new Date());
   const [motd, setMotd] = useState<string[]>([]);
   const [timeInLondon, setTimeInLondon] = useState<Date>(getLondonTime());
 
@@ -27,7 +29,7 @@ function App() {
 
   useInterval(() => {
     setTimeInLondon(getLondonTime());
-  });
+  }, 1000);
 
   const londonTime = timeInLondon.toLocaleTimeString("en-GB", {
     hour: "2-digit",
@@ -43,24 +45,26 @@ function App() {
   const getTrainTime = (index: number) => {
     if (index === 0) return "due";
     const waitingTime = (maxStations - stationsLength) * 5;
-    const minutes = index * 5 + waitingTime;
+
+    const minutesSinceRender = Math.floor(
+      (timeInLondon.getTime() - renderDate.getTime()) / 1000 / 60
+    );
+
+    const minutes = index * 5 - minutesSinceRender + waitingTime;
 
     return `${minutes} min`;
   };
 
   return (
-    <div
-      style={{ background: "#393939", padding: "3rem", borderRadius: "4px" }}
-    >
+    <>
       <div
         style={{
           background: "black",
           color: "orange",
-          padding: "0.5rem 2rem",
-          fontSize: "2rem",
+          padding: "0.5em 2em",
           borderRadius: "4px",
-          minWidth: "800px",
         }}
+        className="time-font board"
       >
         {motd && (
           <>
@@ -88,12 +92,24 @@ function App() {
                   </span>
                 </li>
               ))}
+              <li>
+                <Marquee delay={1}>
+                  <p style={{ marginRight: "1em" }}>
+                    Departures every 5 minutes. Check back for further updates.
+                    Planned engineering this weekend.{" "}
+                  </p>
+                </Marquee>
+              </li>
             </ul>
-            <div className="time-font">{londonTime}</div>
+            <div style={{ fontWeight: 400 }}>{londonTime}</div>
           </>
         )}
       </div>
-    </div>
+
+      <p style={{ fontWeight: 400, paddingTop: "2rem" }}>
+        Created by <a href="https://github.com/justinline">justinline</a>
+      </p>
+    </>
   );
 }
 
