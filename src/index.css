@@ -16,12 +16,11 @@
 }
 
 a {
-  font-weight: 500;
-  color: #a6aafc;
+  color: #fb693d;
   text-decoration: inherit;
 }
 a:hover {
-  color: #b9bdfd;
+  color: #f97545;
 }
 
 body {
@@ -41,12 +40,7 @@ h1 {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+
 }
 
   .blink {
@@ -61,5 +55,7 @@ h1 {
   }
 
   .time-font {
+    color: orange;
+
     font-family: 'London Underground', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   }

@@ -3,6 +3,7 @@ import "./App.css";
 import "unfonts.css";
 import useInterval from "./useInterval";
 import Marquee from "react-fast-marquee";
+import WakeLock from "./WakeLock";
 
 const getLondonTime = () => {
   const date = new Date();
@@ -56,11 +57,10 @@ function App() {
   };
 
   return (
-    <>
+    <div style={{ position: "relative" }}>
       <div
         style={{
           background: "black",
-          color: "orange",
           padding: "0.5em 2em",
           borderRadius: "4px",
         }}
@@ -94,9 +94,10 @@ function App() {
               ))}
               <li>
                 <Marquee delay={1}>
-                  <p style={{ marginRight: "1em" }}>
+                  <p style={{ marginRight: "0.5em" }}>
                     Departures every 5 minutes. Check back for further updates.
-                    Planned engineering this weekend.{" "}
+                    Planned engineering this weekend. Created by{" "}
+                    <a href="https://github.com/justinline">justinline</a>.
                   </p>
                 </Marquee>
               </li>
@@ -105,11 +106,10 @@ function App() {
           </>
         )}
       </div>
-
-      <p style={{ fontWeight: 400, paddingTop: "2rem" }}>
-        Created by <a href="https://github.com/justinline">justinline</a>
-      </p>
-    </>
+      <div style={{ position: "relative" }}>
+        <WakeLock />
+      </div>
+    </div>
   );
 }
 

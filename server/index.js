@@ -9,7 +9,9 @@ import getStations from "./getStations.js";
 
 config();
 
-const defaultData = { stations: ["Lower Donkington", "Zoomsbury"] };
+const defaultData = {
+  stations: ["Lower Donkington", "Muddy shore", "Isle of Frogs", "East Chair"],
+};
 const adapter = new JSONFile(".data/db.json");
 const db = new Low(adapter, defaultData);
 

@@ -10,6 +10,8 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const getMessageOfTheDay = async (previousStations = []) => {
+  // return previousStations;
+
   const prompt = getStationName(previousStations);
   console.log("Latest prompt is: " + prompt);
 
@@ -23,7 +25,7 @@ const getMessageOfTheDay = async (previousStations = []) => {
 
     console.log("OpenAI Result: " + JSON.stringify(completion.data));
     console.log("===========================");
-    const newStation = completion.data.choices[0].text;
+    const newStation = completion.data.choices[0].text.replace(/\.$/, "");
     console.log("newStation is: " + newStation);
 
     return [...previousStations, newStation];

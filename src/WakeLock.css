@@ -1,0 +1,21 @@
+.WakeIcon {
+    width: 100%;
+    height: 100%;
+    color: orange;
+}
+
+button {
+    background: transparent;
+    /* padding: 0.5rem; */
+    border-radius: 50%;
+    border-width: 0;
+}
+
+.WakeLock {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+}

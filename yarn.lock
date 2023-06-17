@@ -420,6 +420,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/dom-screen-wake-lock@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@types/dom-screen-wake-lock@npm:1.0.1"
+  checksum: 5762535a813d5f9462ed91f39ed15d6e21e15ad5735dcba9cd6dbf543a6a6af0d82c32b9d22693464f051da59f91f617e6d041497ea5e59016250ffde454c515
+  languageName: node
+  linkType: hard
+
 "@types/express-serve-static-core@npm:^4.17.33":
   version: 4.17.35
   resolution: "@types/express-serve-static-core@npm:4.17.35"
@@ -857,6 +864,7 @@ __metadata:
   resolution: "beweird@workspace:."
   dependencies:
     "@types/body-parser": ^1
+    "@types/dom-screen-wake-lock": ^1.0.1
     "@types/express": ^4
     "@types/node": ^20.1.7
     "@types/react": ^18.0.28
