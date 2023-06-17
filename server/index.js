@@ -9,8 +9,14 @@ import getTrainList from "./getTrainList.js";
 
 config();
 
+const defaultStations = [
+  "Lower Donkington",
+  "Muddy shore",
+  "Clapton Forest",
+  "East Chair",
+];
 const defaultData = {
-  stations: ["Lower Donkington", "Muddy shore", "Clapton Forest", "East Chair"],
+  stations: defaultStations,
   lastUpdated: new Date().toISOString(),
 };
 const adapter = new JSONFile(".data/db.json");
@@ -24,8 +30,13 @@ async function updateStations() {
   console.log("hour", hour);
   try {
     if (hour < 7 || hour >= 23) {
-      return [];
+      db.data.stations = [];
+
+      return;
+    } else if (db.data.stations.length === 0) {
+      db.data.stations = defaultStations;
     }
+
     if (db.data.stations.length <= 4) {
       const allNewstations = await getTrainList(db.data.stations.slice(1));
       db.data.stations = allNewstations;
