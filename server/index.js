@@ -17,8 +17,11 @@ const adapter = new JSONFile(".data/db.json");
 const db = new Low(adapter, defaultData);
 
 async function updateStations() {
+  const date = new Date();
+
+  const hour = date.getUTCHours();
   try {
-    if (new Date().getHours() < 8) {
+    if (hour < 7 || hour > 23) {
       return [];
     }
     if (db.data.stations.length <= 4) {
@@ -29,7 +32,7 @@ async function updateStations() {
       db.data.stations = db.data.stations.slice(1);
     }
 
-    db.data.lastUpdated = new Date().toISOString();
+    db.data.lastUpdated = date.toISOString();
 
     console.log(db.data.stations);
   } catch (error) {
