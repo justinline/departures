@@ -13,14 +13,12 @@ const getTrainList = async (previousStations = []) => {
   const prompt = buildGptPrompt(previousStations);
 
   try {
-    const completion = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: prompt,
-      temperature: 0.8,
-      max_tokens: 20,
+    const chatCompletion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: prompt }],
     });
 
-    const fourNewStations = completion.data.choices[0].text
+    const fourNewStations = chatCompletion.data.choices[0].message.content
       .split(",")
       .filter((s) => s !== "");
 
