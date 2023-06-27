@@ -18,14 +18,18 @@ const getTrainList = async (previousStations = []) => {
       messages: [{ role: "user", content: prompt }],
     });
 
-    const fourNewStations = chatCompletion.data.choices[0].message.content
-      .split(",")
-      .filter((s) => s !== "");
+    const content = chatCompletion.data.choices[0].message.content;
+
+    const splitContent = content.includes("1")
+      ? content.replace(/[0-9]/g, "").split("\n")
+      : content.split(",");
+
+    const newStations = splitContent.filter((s) => s !== "");
 
     return [
       ...previousStations,
       // regex Replace trailing . with ''
-      ...fourNewStations.map((s) => s.replace(/\.$/, "").trim()),
+      ...newStations.map((s) => s.replace(/\.$/, "").trim()),
     ];
   } catch (error) {
     if (error.response) {
