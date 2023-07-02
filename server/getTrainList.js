@@ -21,7 +21,7 @@ const getTrainList = async (previousStations = []) => {
     const content = chatCompletion.data.choices[0].message.content;
 
     const splitContent = content.includes("1")
-      ? content.replace(/[0-9]/g, "").split("\n")
+      ? content.replace(/[0-9]\.? ?/g, "").split("\n")
       : content.split(",");
 
     const newStations = splitContent.filter((s) => s !== "");
