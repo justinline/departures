@@ -52,8 +52,7 @@ const oneTimeFunction = () => {
 
 const handleAnnouncementOnce = oneTimeFunction();
 
-// @ts-expect-error: Window stuff for development
-window.announce = handleAnnouncement;
+
 
 function App() {
   const [serverLastUpdate, setServerLastUpdate] = useState<Date>(new Date());
@@ -80,12 +79,18 @@ function App() {
     timeZone: "Europe/London",
   });
 
-  useEffect(() => {
-    if (motd.length === 0) return;
-
+  const announce = () => {
     handleAnnouncementOnce(motd, londonTime.slice(0, 5));
     setAnnounced(true);
-  }, [motd, londonTime]);
+  };
+
+  // @ts-expect-error: Window stuff for development
+  window.announce = announce;
+
+  useEffect(() => {
+    if (motd.length === 0) return;
+    announce();
+  }, [motd, announce]);
 
   useInterval(() => {
     setTimeInLondon(getLondonTime());
@@ -94,8 +99,7 @@ function App() {
     const oneMinutePast = timeInLondon.getMinutes() === 1;
 
     if (isOnTheHour) {
-      handleAnnouncement(motd, londonTime.slice(0, 5));
-      setAnnounced(true);
+      announce();
     }
 
     if (announced && oneMinutePast) {
