@@ -11,10 +11,39 @@ const getLondonTime = () => {
   return date;
 };
 
+const getVoice = () =>
+  window.speechSynthesis
+    .getVoices()
+    .find((voice) => voice.name.startsWith("Google UK English Male"));
+
+const handleAnnouncement = (names: string[], time: string) => {
+  if (window.speechSynthesis.speaking) {
+    console.error("speechSynthesis.speaking");
+    return;
+  }
+  const voice = getVoice();
+
+  if (!voice) return;
+
+  const announceThis = new SpeechSynthesisUtterance(
+    `The next train arriving at platform 1 is the, ${time} underground service calling at ${names.join(
+      ", "
+    )}`
+  );
+
+  announceThis.voice = voice;
+
+  window.speechSynthesis.speak(announceThis);
+};
+
+// @ts-expect-error: Window stuff for development
+window.announce = handleAnnouncement;
+
 function App() {
   const [serverLastUpdate, setServerLastUpdate] = useState<Date>(new Date());
   const [motd, setMotd] = useState<string[]>([]);
   const [timeInLondon, setTimeInLondon] = useState<Date>(getLondonTime());
+  const [announced, setAnnounced] = useState(false);
 
   const getData = () =>
     fetch("/api/motd")
@@ -30,6 +59,19 @@ function App() {
 
   useInterval(() => {
     setTimeInLondon(getLondonTime());
+
+    const isOnTheHour = timeInLondon.getMinutes() === 0;
+    const oneMinutePast = timeInLondon.getMinutes() === 1;
+
+    if (isOnTheHour) {
+      handleAnnouncement(motd, londonTime.slice(0, 5));
+      setAnnounced(true);
+    }
+
+    if (announced && oneMinutePast) {
+      setAnnounced(false);
+    }
+
     const fiveMinutesAgo = new Date().getTime() - 1000 * 60 * 5;
 
     if (serverLastUpdate.getTime() < fiveMinutesAgo) {
