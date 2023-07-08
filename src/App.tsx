@@ -25,16 +25,32 @@ const handleAnnouncement = (names: string[], time: string) => {
 
   if (!voice) return;
 
+  const platform = Math.ceil(Math.random() * 5);
+
+  const lastStation = names.pop() ?? "Fringe";
+
   const announceThis = new SpeechSynthesisUtterance(
-    `The next train arriving at platform 1 is the, ${time} underground service calling at ${names.join(
+    `The next train arriving at platform ${platform} is the, ${time} underground service calling at ${names.join(
       ", "
-    )}`
+    )} and ${lastStation}.`
   );
 
   announceThis.voice = voice;
 
   window.speechSynthesis.speak(announceThis);
 };
+
+const oneTimeFunction = () => {
+  let called = false;
+
+  return (names: string[], time: string) => {
+    if (called) return;
+    called = true;
+    handleAnnouncement(names, time);
+  };
+};
+
+const handleAnnouncementOnce = oneTimeFunction();
 
 // @ts-expect-error: Window stuff for development
 window.announce = handleAnnouncement;
@@ -57,6 +73,20 @@ function App() {
     getData();
   }, []);
 
+  const londonTime = timeInLondon.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "Europe/London",
+  });
+
+  useEffect(() => {
+    if (motd.length === 0) return;
+
+    handleAnnouncementOnce(motd, londonTime.slice(0, 5));
+    setAnnounced(true);
+  }, [motd, londonTime]);
+
   useInterval(() => {
     setTimeInLondon(getLondonTime());
 
@@ -78,13 +108,6 @@ function App() {
       getData();
     }
   }, 1000);
-
-  const londonTime = timeInLondon.toLocaleTimeString("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    timeZone: "Europe/London",
-  });
 
   const stationsLength = motd.length;
   const maxStations = 4;
