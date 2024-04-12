@@ -1,6 +1,5 @@
 /**
- * Prompt for the user to send a fortune
- * @param {[string]|undefined} previous - The weirdness factor for the fortune
+ * @param {[string]|undefined} previous - The previous stations that were generated
  * @returns {string} The prompt
  */
 const getStationName = (previous) => `
